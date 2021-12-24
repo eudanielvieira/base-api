@@ -1,4 +1,11 @@
-import { Controller, Post, Get, Body, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Param,
+  ValidationPipe,
+} from '@nestjs/common';
 
 import { UsersService } from './users.service';
 
@@ -27,6 +34,15 @@ export class UsersController {
     return {
       users,
       numberOfUsers: users.length,
+    };
+  }
+
+  @Get(':id')
+  async getUserById(@Param('id') id: string): Promise<ReturnUserDto> {
+    const user = await this.usersService.getUserById(id);
+    return {
+      user,
+      message: 'Usuário encontrado',
     };
   }
 }

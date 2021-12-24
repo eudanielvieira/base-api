@@ -35,10 +35,10 @@ export class UserRepository extends Repository<User> {
       return user;
     } catch (error) {
       if (error.code.toString() === '23505') {
-        throw new ConflictException('Endereço de email já está em uso');
+        throw new ConflictException('Email já cadastrado');
       } else {
         throw new InternalServerErrorException(
-          'Erro ao salvar o usuário no banco de dados',
+          'Erro ao salvar dados do usuário',
         );
       }
     }

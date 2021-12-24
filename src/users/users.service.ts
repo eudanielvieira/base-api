@@ -1,4 +1,8 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  UnprocessableEntityException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -21,6 +25,18 @@ export class UsersService {
   }
 
   async getAllUsers(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      select: ['id', 'email', 'name', 'role'],
+    });
+  }
+
+  async getUserById(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne(userId, {
+      select: ['id', 'email', 'name', 'role'],
+    });
+
+    if (!user) throw new NotFoundException('Usuário não encontrado');
+
+    return user;
   }
 }
