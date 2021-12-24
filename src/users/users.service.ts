@@ -19,4 +19,8 @@ export class UsersService {
       return this.userRepository.createUser(createUserDto, UserRole.ADMIN);
     }
   }
+
+  async getAllUsers(): Promise<User[]> {
+    return this.userRepository.find();
+  }
 }

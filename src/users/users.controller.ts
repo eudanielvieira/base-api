@@ -1,9 +1,10 @@
-import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Get, Body, ValidationPipe } from '@nestjs/common';
 
 import { UsersService } from './users.service';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { ReturnUserDto } from './dto/return-user.dto';
+import { ReturnAllUserDto } from './dto/return-all-users.dto';
 
 @Controller('api/v1/users')
 export class UsersController {
@@ -17,6 +18,15 @@ export class UsersController {
     return {
       user,
       message: 'Administrador cadastrado com sucesso',
+    };
+  }
+
+  @Get()
+  async getAllUsers(): Promise<ReturnAllUserDto> {
+    const users = await this.usersService.getAllUsers();
+    return {
+      users,
+      numberOfUsers: users.length,
     };
   }
 }
