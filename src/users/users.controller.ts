@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Get,
+  Patch,
   Body,
   Param,
   ValidationPipe,
@@ -12,6 +13,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ReturnUserDto } from './dto/return-user.dto';
 import { ReturnAllUserDto } from './dto/return-all-users.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('api/v1/users')
 export class UsersController {
@@ -44,5 +46,13 @@ export class UsersController {
       user,
       message: 'Usuário encontrado',
     };
+  }
+
+  @Patch(':id')
+  async updateUser(
+    @Body(ValidationPipe) updateUserDto: UpdateUserDto,
+    @Param('id') id: string,
+  ) {
+    return this.usersService.updateUser(updateUserDto, id);
   }
 }

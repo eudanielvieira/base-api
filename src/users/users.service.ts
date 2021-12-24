@@ -8,6 +8,7 @@ import { UserRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UserRole } from './user-roles.enum';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -38,5 +39,15 @@ export class UsersService {
     if (!user) throw new NotFoundException('Usuário não encontrado');
 
     return user;
+  }
+
+  async updateUser(updateUserDto: UpdateUserDto, id: string) {
+    const result = await this.userRepository.update({ id }, updateUserDto);
+    if (result.affected > 0) {
+      const user = await this.getUserById(id);
+      return user;
+    } else {
+      throw new NotFoundException('Usuário não encontrado');
+    }
   }
 }
