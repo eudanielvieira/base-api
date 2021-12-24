@@ -3,13 +3,15 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { typeOrmConfigAsync } from './config/typeorm.config';
-import { UserModule } from './user/user.module';
+
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync(typeOrmConfigAsync),
-    UserModule,
+    UsersModule,
   ],
+  controllers: [],
 })
 export class AppModule {}
