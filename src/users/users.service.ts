@@ -50,4 +50,11 @@ export class UsersService {
       throw new NotFoundException('Usuário não encontrado');
     }
   }
+
+  async deleteUser(userId: string) {
+    const result = await this.userRepository.delete({ id: userId });
+    if (result.affected === 0) {
+      throw new NotFoundException('Usuário não encontrado para exclusão');
+    }
+  }
 }

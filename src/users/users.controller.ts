@@ -3,6 +3,7 @@ import {
   Post,
   Get,
   Patch,
+  Delete,
   Body,
   Param,
   ValidationPipe,
@@ -54,5 +55,13 @@ export class UsersController {
     @Param('id') id: string,
   ) {
     return this.usersService.updateUser(updateUserDto, id);
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string) {
+    await this.usersService.deleteUser(id);
+    return {
+      message: 'Usuario deletado com sucesso',
+    };
   }
 }
