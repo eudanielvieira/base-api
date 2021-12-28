@@ -6,7 +6,10 @@ export default class SecretConfig {
     return {
       secret: configService.get<string>('SECRET_KEY'),
       signOptions: {
-        expiresIn: configService.get<number>('TOKEN_EXPIRATION_TIME'),
+        expiresIn: parseInt(
+          configService.get<string>('TOKEN_EXPIRATION_TIME'),
+          10,
+        ),
       },
     };
   }

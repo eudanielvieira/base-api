@@ -28,13 +28,29 @@ export class UsersService {
 
   async getAllUsers(): Promise<User[]> {
     return this.userRepository.find({
-      select: ['id', 'email', 'name', 'role'],
+      select: [
+        'id',
+        'email',
+        'name',
+        'role',
+        'status',
+        'createdAt',
+        'updatedAt',
+      ],
     });
   }
 
   async getUserById(userId: string): Promise<User> {
     const user = await this.userRepository.findOne(userId, {
-      select: ['id', 'email', 'name', 'role'],
+      select: [
+        'id',
+        'email',
+        'name',
+        'role',
+        'status',
+        'createdAt',
+        'updatedAt',
+      ],
     });
 
     if (!user) throw new NotFoundException('Usuário não encontrado');
@@ -53,8 +69,8 @@ export class UsersService {
   }
 
   async deleteUser(userId: string) {
-    const result = await this.userRepository.delete({ id: userId });
-    if (result.affected === 0) {
+    const result = await this.userRepository.softDelete({ id: userId });
+    if (!result.affected) {
       throw new NotFoundException('Usuário não encontrado para exclusão');
     }
   }

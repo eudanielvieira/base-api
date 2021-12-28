@@ -48,7 +48,7 @@ export class User extends BaseEntity {
   updatedAt: Date;
 
   @DeleteDateColumn()
-  deletedAt?: Date;
+  deletedAt: Date;
 
   @BeforeInsert()
   async hashPassword() {
