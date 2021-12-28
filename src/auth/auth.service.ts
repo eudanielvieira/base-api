@@ -7,7 +7,7 @@ import { UserRepository } from 'src/users/users.repository';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 
-import { User } from '../users/user.entity';
+import { User } from '../entities/user.entity';
 import { UserRole } from '../users/user-roles.enum';
 
 @Injectable()

@@ -7,7 +7,7 @@ import { genSalt } from 'bcrypt';
 import { randomBytes } from 'crypto';
 
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './user.entity';
+import { User } from '../entities/user.entity';
 import { UserRole } from './user-roles.enum';
 import { LoginDto } from 'src/auth/dto/login.dto';
 
