@@ -32,6 +32,7 @@ export class UserRepository extends Repository<User> {
       await user.save();
       delete user.salt;
       delete user.recoverToken;
+      delete user.password;
       return user;
     } catch (error) {
       if (error.code.toString() === '23505') {
