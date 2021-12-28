@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const user = await this.userRepository.validateCredentials(loginDto);
+    const user = await this.userRepository.login(loginDto);
 
     if (user === null) {
       throw new UnprocessableEntityException('Usuário ou senha inválidos');

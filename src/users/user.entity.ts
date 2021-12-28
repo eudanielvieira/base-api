@@ -6,8 +6,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
+  BeforeInsert,
 } from 'typeorm';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 
 @Entity()
 @Unique(['email'])
@@ -45,8 +47,20 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  async validatePassword(password: string): Promise<boolean> {
-    const encrypted_password = await hash(password, this.salt);
-    return encrypted_password === this.password;
+  @DeleteDateColumn()
+  deletedAt?: Date;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await hash(this.password, this.salt);
+  }
+
+  @BeforeInsert()
+  formatEmail() {
+    this.email = this.email.toLowerCase();
+  }
+
+  async validatePassword(attempt: string) {
+    return await compare(attempt, this.password);
   }
 }

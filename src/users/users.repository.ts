@@ -3,7 +3,7 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { hash, genSalt } from 'bcrypt';
+import { genSalt } from 'bcrypt';
 import { randomBytes } from 'crypto';
 
 import { CreateUserDto } from './dto/create-user.dto';
@@ -27,10 +27,9 @@ export class UserRepository extends Repository<User> {
     user.salt = await genSalt();
     user.confirmationToken = randomBytes(32).toString('hex');
 
-    user.password = await hash(password, user.salt);
+    user.password = password;
     try {
       await user.save();
-      delete user.password;
       delete user.salt;
       delete user.recoverToken;
       return user;
@@ -45,7 +44,7 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async validateCredentials(loginDto: LoginDto): Promise<User> {
+  async login(loginDto: LoginDto): Promise<User> {
     const { username, password } = loginDto;
     const user = await this.findOne({ email: username, status: true });
 
