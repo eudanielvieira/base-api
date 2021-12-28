@@ -1,10 +1,10 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 
-import { AuthService } from './auth.service';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
-import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
+import { AuthService } from './auth.service';
 
 @Controller('v1/users')
 export class AuthController {
