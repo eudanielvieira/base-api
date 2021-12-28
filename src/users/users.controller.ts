@@ -23,7 +23,6 @@ export class UsersController {
 
   @Post()
   @ApiOperation({ summary: 'Create admin user' })
-  @Get()
   async createAdminUser(
     @Body(ValidationPipe) createUserDto: CreateUserDto,
   ): Promise<ReturnUserDto> {
