@@ -1,19 +1,21 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 
 import { UserRepository } from 'src/users/users.repository';
 
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 import { User } from '../users/user.entity';
 import { UserRole } from '../users/user-roles.enum';
-import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
+    private jwtService: JwtService,
   ) {}
 
   async register(createUserDto: CreateUserDto): Promise<User> {
@@ -31,6 +33,11 @@ export class AuthService {
       throw new UnprocessableEntityException('Usuário ou senha inválidos');
     }
 
-    return user;
+    const jwtPayload = {
+      id: user.id,
+    };
+    const token = this.jwtService.sign(jwtPayload);
+
+    return { token };
   }
 }
