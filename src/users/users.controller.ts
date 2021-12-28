@@ -7,21 +7,28 @@ import {
   Body,
   Param,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Role } from 'src/auth/role.decorator';
 
 import { UsersService } from './users.service';
-
 import { CreateUserDto } from './dto/create-user.dto';
 import { ReturnUserDto } from './dto/return-user.dto';
 import { ReturnAllUserDto } from './dto/return-all-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRole } from './user-roles.enum';
 
 @Controller('v1/users')
+@UseGuards(AuthGuard(), RolesGuard)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
+  @Role(UserRole.ADMIN)
   @ApiOperation({ summary: 'Create admin user' })
   async createAdminUser(
     @Body(ValidationPipe) createUserDto: CreateUserDto,
@@ -34,6 +41,7 @@ export class UsersController {
   }
 
   @Get()
+  @Role(UserRole.ADMIN)
   @ApiOperation({ summary: 'Get all users' })
   async getAllUsers(): Promise<ReturnAllUserDto> {
     const users = await this.usersService.getAllUsers();
@@ -63,6 +71,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @Role(UserRole.ADMIN)
   @ApiOperation({ summary: 'Delete user by id' })
   async deleteUser(@Param('id') id: string) {
     await this.usersService.deleteUser(id);
