@@ -9,6 +9,7 @@ import { randomBytes } from 'crypto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UserRole } from './user-roles.enum';
+import { LoginDto } from 'src/auth/dto/login.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -41,6 +42,17 @@ export class UserRepository extends Repository<User> {
           'Erro ao salvar dados do usuário',
         );
       }
+    }
+  }
+
+  async validateCredentials(loginDto: LoginDto): Promise<User> {
+    const { username, password } = loginDto;
+    const user = await this.findOne({ email: username, status: true });
+
+    if (user && (await user.validatePassword(password))) {
+      return user;
+    } else {
+      return null;
     }
   }
 }

@@ -7,6 +7,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 import { User } from '../users/user.entity';
 import { UserRole } from '../users/user-roles.enum';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,13 @@ export class AuthService {
     }
   }
 
-  login(): string {
-    return 'login';
+  async login(loginDto: LoginDto) {
+    const user = await this.userRepository.validateCredentials(loginDto);
+
+    if (user === null) {
+      throw new UnprocessableEntityException('Usuário ou senha inválidos');
+    }
+
+    return user;
   }
 }

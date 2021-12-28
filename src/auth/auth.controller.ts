@@ -4,6 +4,7 @@ import { ApiOperation } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('v1/users')
 export class AuthController {
@@ -20,7 +21,7 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({ summary: 'User Login' })
-  async login() {
-    return this.authService.login();
+  async login(@Body(ValidationPipe) logindto: LoginDto) {
+    return this.authService.login(logindto);
   }
 }
