@@ -55,4 +55,12 @@ export class UserRepository extends Repository<User> {
       return null;
     }
   }
+
+  async changePassword(id: string, password: string) {
+    const user = await this.findOne(id);
+    user.salt = await genSalt();
+    user.password = password;
+    user.recoverToken = null;
+    await user.save();
+  }
 }
