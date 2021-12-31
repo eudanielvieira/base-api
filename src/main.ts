@@ -1,14 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
+import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
 
-import config from './config/swagger.config';
+import { swaggerConfig } from './config/swagger.config';
+import { winstonConfig } from './config/winston.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix(process.env.PROJECT_PREFIX);
 
-  const document = SwaggerModule.createDocument(app, config);
+  const logger = WinstonModule.createLogger(winstonConfig);
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup(process.env.PROJECT_DOOCUMENTATION, app, document);
 
   await app.listen(process.env.PORT || 5000);
