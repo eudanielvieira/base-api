@@ -5,6 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes } from 'crypto';
 
@@ -22,14 +24,47 @@ export class AuthService {
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
     private jwtService: JwtService,
+    private configService: ConfigService,
+    private mailerService: MailerService,
   ) {}
+
+  protected setNoReplayMail() {
+    return this.configService.get<string>('NO_REPLY_EMAIL');
+  }
+
+  protected setResetPasswordLink(token: string): string {
+    const frontEndURL = this.configService.get<string>('FRONT_END_URL');
+    return `${frontEndURL}/reset-password/?token=${token}`;
+  }
+
+  protected setConfirmationToken(token: string): string {
+    const frontEndURL = this.configService.get<string>('FRONT_END_URL');
+    return `${frontEndURL}/email-confirmation/?token=${token}`;
+  }
 
   async register(createUserDto: CreateUserDto): Promise<User> {
     if (createUserDto.password != createUserDto.passwordConfirmation) {
       throw new UnprocessableEntityException('As senhas não são iguais');
     } else {
-      // TODO: Enviar email de confirmação de cadastro
-      return await this.userRepository.createUser(createUserDto, UserRole.USER);
+      const user = await this.userRepository.createUser(
+        createUserDto,
+        UserRole.USER,
+      );
+
+      const mail = {
+        to: user.email,
+        from: this.setNoReplayMail(),
+        subject: 'Portal PBM - Email de confirmação',
+        template: './email-confirmation',
+        context: {
+          emailConfirmationLink: this.setConfirmationToken(
+            user.confirmationToken,
+          ),
+        },
+      };
+      await this.mailerService.sendMail(mail);
+
+      return user;
     }
   }
 
@@ -68,7 +103,16 @@ export class AuthService {
     user.recoverToken = randomBytes(32).toString('hex');
     await user.save();
 
-    // TODO: Enviar email de recuperação de senha
+    const mail = {
+      to: user.email,
+      from: this.setNoReplayMail(),
+      subject: 'Portal PBM - Recuperação de senha',
+      template: './recover-password',
+      context: {
+        resetPasswordLink: this.setResetPasswordLink(user.confirmationToken),
+      },
+    };
+    await this.mailerService.sendMail(mail);
   }
 
   async changePassword(

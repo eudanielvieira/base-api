@@ -1,0 +1,42 @@
+<html>
+
+<body>
+  <center>
+    <div style="
+          max-width: 840px; 
+          height: 500px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background-color: #FFF; 
+          margin: 0; 
+          padding: 30px;">
+      <img src="{{siteUrl}}/images/logo.svg" alt="Logo" style="
+              width: 150px;
+              margin: 0 auto;
+              display: block;">
+      <h2 style="color: #5b4a3f;">Confirmação de email</h2>
+      <p style="color: #874803;">Para confirmar seu email clique no botão abaixo</p>
+      <div style="
+            margin: 20px auto;
+            width: 200px;
+            padding: 10px 20px;
+            background-color: #FA8605;
+            border-radius: 5px">
+        <a href="{{emailConfirmationLink}}" target="_blank" rel="noopener noreferrer"
+          onMouseOver="this.style.color='#0F0'"
+          style="
+              text-decoration: none;
+              color: #fcfcfc;
+              font-size: 18px;
+              margin: 0 auto;
+              cursor: pointer;">
+          Confirmar Email
+        </a>
+      </div>
+    </div>
+  </center>
+</body>
+
+</html>
