@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, MaxLength, IsEmail, MinLength } from 'class-validator';
 export class LoginDto {
   @IsNotEmpty({
@@ -12,6 +13,7 @@ export class LoginDto {
   @MaxLength(255, {
     message: 'O endereço de usuário não pode ter mais de 255 caracteres',
   })
+  @ApiProperty()
   username: string;
 
   @IsNotEmpty({
@@ -20,5 +22,6 @@ export class LoginDto {
   @MinLength(6, {
     message: 'A senha deve ter no mínimo 6 caracteres',
   })
+  @ApiProperty()
   password: string;
 }

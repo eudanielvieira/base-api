@@ -10,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix(process.env.PROJECT_PREFIX);
 
-  const logger = WinstonModule.createLogger(winstonConfig);
+  WinstonModule.createLogger(winstonConfig);
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup(process.env.PROJECT_DOOCUMENTATION, app, document);

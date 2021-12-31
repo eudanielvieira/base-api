@@ -9,7 +9,11 @@ import {
   ValidationPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiUnauthorizedResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -29,6 +33,8 @@ export class UsersController {
 
   @Post()
   @Role(UserRole.ADMIN)
+  @ApiUnauthorizedResponse()
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Create admin user' })
   async createAdminUser(
     @Body(ValidationPipe) createUserDto: CreateUserDto,
@@ -42,6 +48,8 @@ export class UsersController {
 
   @Get()
   @Role(UserRole.ADMIN)
+  @ApiUnauthorizedResponse()
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Get all users' })
   async getAllUsers(): Promise<ReturnAllUserDto> {
     const users = await this.usersService.getAllUsers();
@@ -52,6 +60,8 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiUnauthorizedResponse()
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Get user by id' })
   async getUserById(@Param('id') id: string): Promise<ReturnUserDto> {
     const user = await this.usersService.getUserById(id);
@@ -62,6 +72,8 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @ApiUnauthorizedResponse()
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Update user by id' })
   async updateUser(
     @Body(ValidationPipe) updateUserDto: UpdateUserDto,
@@ -72,6 +84,8 @@ export class UsersController {
 
   @Delete(':id')
   @Role(UserRole.ADMIN)
+  @ApiUnauthorizedResponse()
+  @ApiBearerAuth('access-token')
   @ApiOperation({ summary: 'Delete user by id' })
   async deleteUser(@Param('id') id: string) {
     await this.usersService.deleteUser(id);

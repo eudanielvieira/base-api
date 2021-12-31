@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
@@ -14,6 +15,7 @@ export class CreateUserDto {
   @MaxLength(255, {
     message: 'O nome do usuário não pode ter mais de 255 caracteres',
   })
+  @ApiProperty()
   name: string;
 
   @IsNotEmpty({
@@ -28,6 +30,7 @@ export class CreateUserDto {
   @MaxLength(255, {
     message: 'O endereço de email não pode ter mais de 255 caracteres',
   })
+  @ApiProperty()
   email: string;
 
   @IsString({
@@ -43,6 +46,7 @@ export class CreateUserDto {
     message:
       'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número ou um símbulo',
   })
+  @ApiProperty()
   password: string;
 
   @IsString({
@@ -58,5 +62,6 @@ export class CreateUserDto {
     message:
       'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número ou um símbulo',
   })
+  @ApiProperty()
   passwordConfirmation: string;
 }
