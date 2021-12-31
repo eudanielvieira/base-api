@@ -16,7 +16,7 @@ Este projeto implementa uma API usando o framework NestJs com as funcionalidades
 - [x] Envio de e-mail de recuperação de senha
 - [x] Envio de e-mail de confirmação de cadastro
 - [x] Documentação da API - Swagger
-- [ ] Registro de Logs
+- [x] Registro de Logs
 - [ ] Testes
 - [ ] Novos módulos
 
