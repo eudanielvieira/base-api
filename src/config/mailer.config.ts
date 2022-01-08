@@ -1,7 +1,7 @@
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerOptions } from '@nestjs-modules/mailer';
-import { MailDto } from 'src/shared/mail.dto';
+import { MailDto } from '../shared/mail.dto';
 
 export default class MailerConfig {
   private static configSMTP(smtpData: MailDto) {

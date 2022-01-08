@@ -10,10 +10,10 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes } from 'crypto';
 
-import { UserRepository } from 'src/users/users.repository';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { UserRole } from 'src/users/user-roles.enum';
-import { User } from 'src/entities/user.entity';
+import { UserRepository } from '../users/users.repository';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UserRole } from '../users/user-roles.enum';
+import { User } from '../entities/user.entity';
 
 import { LoginDto } from './dto/login.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
@@ -54,7 +54,7 @@ export class AuthService {
       const mail = {
         to: user.email,
         from: this.setNoReplayMail(),
-        subject: 'Portal PBM - Email de confirmação',
+        subject: 'Email de confirmação',
         template: './email-confirmation',
         context: {
           emailConfirmationLink: this.setConfirmationToken(
@@ -106,7 +106,7 @@ export class AuthService {
     const mail = {
       to: user.email,
       from: this.setNoReplayMail(),
-      subject: 'Portal PBM - Recuperação de senha',
+      subject: 'Recuperação de senha',
       template: './recover-password',
       context: {
         resetPasswordLink: this.setResetPasswordLink(user.confirmationToken),

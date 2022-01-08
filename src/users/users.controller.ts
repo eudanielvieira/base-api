@@ -16,8 +16,8 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { RolesGuard } from 'src/auth/roles.guard';
-import { Role } from 'src/auth/role.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '../auth/role.decorator';
 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';

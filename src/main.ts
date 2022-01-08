@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { Logger } from '@nestjs/common';
 import { SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
@@ -17,4 +18,11 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT || 5000);
 }
-bootstrap();
+bootstrap()
+  .then(() => {
+    const logger = new Logger('main.ts');
+    logger.log(
+      `${process.env.PPROJECT_NAME} running on port ${process.env.PORT}`,
+    );
+  })
+  .catch(console.log);

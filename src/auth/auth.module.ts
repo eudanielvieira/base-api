@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { UserRepository } from 'src/users/users.repository';
-import { secretConfig } from 'src/config/secret.config';
+import { UserRepository } from '../users/users.repository';
+import { secretConfig } from '../config/secret.config';
 import { JwtStrategy } from './jwt.strategy';
 
 import { AuthController } from './auth.controller';

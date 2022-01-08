@@ -12,10 +12,10 @@ import {
 import { ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { GetUser } from 'src/users/get-user.decorator';
-import { UserRole } from 'src/users/user-roles.enum';
-import { User } from 'src/entities/user.entity';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { GetUser } from '../users/get-user.decorator';
+import { UserRole } from '../users/user-roles.enum';
+import { User } from '../entities/user.entity';
 
 import { LoginDto } from './dto/login.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
