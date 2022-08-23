@@ -91,6 +91,7 @@ export class AuthController {
   @Get('/user')
   @UseGuards(AuthGuard())
   getMe(@GetUser() user: User): User {
+    console.log('Current User: ', user);
     return user;
   }
 }
