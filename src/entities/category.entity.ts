@@ -4,34 +4,27 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Category } from './category.entity';
+import { Item } from './item.entity';
 
 @Entity()
-@Unique(['code'])
-export class Item extends BaseEntity {
+@Unique(['name'])
+export class Category extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false, type: 'varchar', length: 255 })
-  code: string;
+  @Column({ name: 'category_id' })
+  categoryId: string;
 
   @Column({ nullable: false, type: 'varchar', length: 255 })
   name: string;
 
   @Column({ nullable: false, type: 'varchar', length: 255 })
   description: string;
-
-  @Column({ nullable: false, type: 'varchar', length: 255 })
-  price: string;
-
-  @Column({ nullable: false, type: 'varchar', length: 255 })
-  category: string;
 
   @Column({ nullable: false, type: 'varchar', length: 255 })
   image_url: string;
@@ -48,7 +41,6 @@ export class Item extends BaseEntity {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToOne(() => Category, (category) => category.item)
-  @JoinColumn({ name: 'category_id' })
-  item: Category;
+  @OneToMany(() => Item, (item) => item.category)
+  item: Item[];
 }
