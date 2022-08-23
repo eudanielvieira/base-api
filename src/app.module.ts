@@ -13,6 +13,9 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
 import { LoggerInterceptor } from './shared/logger.interceptor';
+import { ItemsModule } from './items/items.module';
+import { CategoryModule } from './category/category.module';
+import { VariablesModule } from './variables/variables.module';
 
 @Module({
   imports: [
@@ -22,6 +25,9 @@ import { LoggerInterceptor } from './shared/logger.interceptor';
     WinstonModule.forRoot(winstonConfig),
     UsersModule,
     AuthModule,
+    ItemsModule,
+    CategoryModule,
+    VariablesModule,
   ],
   controllers: [],
   providers: [
