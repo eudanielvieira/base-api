@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
 import { LoggerInterceptor } from './shared/logger.interceptor';
+import { ItemsModule } from './items/items.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { LoggerInterceptor } from './shared/logger.interceptor';
     WinstonModule.forRoot(winstonConfig),
     UsersModule,
     AuthModule,
+    ItemsModule,
   ],
   controllers: [],
   providers: [
